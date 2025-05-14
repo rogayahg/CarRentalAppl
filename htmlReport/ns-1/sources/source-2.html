@@ -1,0 +1,270 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > InputTest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">src.test</a>
+</div>
+
+<h1>Coverage Summary for Class: InputTest (src.test)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InputTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (30/30)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package src.test;
+&nbsp;import src.Input;
+&nbsp;//Junit imports
+&nbsp;import org.junit.jupiter.api.DisplayName;
+&nbsp;import org.junit.jupiter.api.Test;
+&nbsp;import org.junit.jupiter.params.ParameterizedTest;
+&nbsp;import org.junit.jupiter.params.provider.CsvSource;
+&nbsp;import org.junit.jupiter.params.provider.ValueSource;
+&nbsp;
+&nbsp;import java.io.ByteArrayInputStream;
+&nbsp;import java.io.ByteArrayOutputStream;
+&nbsp;import java.io.PrintStream;
+&nbsp;import java.util.Scanner;
+&nbsp;
+&nbsp;import static org.junit.jupiter.api.Assertions.*;
+&nbsp;
+<b class="fc">&nbsp;public class InputTest {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Helper method to create an Input object with simulated user input
+&nbsp;     */
+&nbsp;    private Input createInputWithSimulatedUserInput(String simulatedInput) {
+<b class="fc">&nbsp;        ByteArrayInputStream inputStream = new ByteArrayInputStream(simulatedInput.getBytes());</b>
+<b class="fc">&nbsp;        Scanner scanner = new Scanner(inputStream);</b>
+<b class="fc">&nbsp;        return new Input(scanner);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test CAse 1
+&nbsp;    @ParameterizedTest
+&nbsp;    @CsvSource({
+&nbsp;            &quot;1, true&quot;,
+&nbsp;            &quot;3, true&quot;,
+&nbsp;            &quot;7, true&quot;,
+&nbsp;            &quot;0, false&quot;,
+&nbsp;            &quot;8, false&quot;,
+&nbsp;            &quot;-1, false&quot;
+&nbsp;    })
+&nbsp;    @DisplayName(&quot;Passenger Input Test&quot;)
+&nbsp;    public void testValidatePassengers(int passengers, boolean expected) {
+&nbsp;        // Arrange
+<b class="fc">&nbsp;        Input input = createInputWithSimulatedUserInput(&quot;&quot;);</b>
+&nbsp;
+&nbsp;        // Act
+<b class="fc">&nbsp;        boolean result = input.validatePassengers(passengers);</b>
+&nbsp;
+&nbsp;        // Assert
+<b class="fc">&nbsp;        assertEquals(expected, result, &quot;validatePassengers should return &quot; + expected + &quot; for input: &quot; + passengers);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test CAse 2
+&nbsp;    @ParameterizedTest
+&nbsp;    @CsvSource({
+&nbsp;            &quot;1, true&quot;,
+&nbsp;            &quot;15, true&quot;,
+&nbsp;            &quot;31, true&quot;,
+&nbsp;            &quot;0, false&quot;,
+&nbsp;            &quot;32, false&quot;,
+&nbsp;            &quot;-5, false&quot;
+&nbsp;    })
+&nbsp;    @DisplayName(&quot;Days Input Validation Test&quot;)
+&nbsp;    public void testValidateDays(int days, boolean expected) {
+&nbsp;        // Arrange
+<b class="fc">&nbsp;        Input input = createInputWithSimulatedUserInput(&quot;&quot;);</b>
+&nbsp;
+&nbsp;        // Act
+<b class="fc">&nbsp;        boolean result = input.validateDays(days);</b>
+&nbsp;
+&nbsp;        // Assert
+<b class="fc">&nbsp;        assertEquals(expected, result, &quot;validateDays should return &quot; + expected + &quot; for input: &quot; + days);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 3
+&nbsp;    @ParameterizedTest
+&nbsp;    @CsvSource({
+&nbsp;            &quot;1, true&quot;,
+&nbsp;            &quot;2500, true&quot;,
+&nbsp;            &quot;5000, true&quot;,
+&nbsp;            &quot;0, false&quot;,
+&nbsp;            &quot;5001, false&quot;,
+&nbsp;            &quot;-100, false&quot;
+&nbsp;    })
+&nbsp;    @DisplayName(&quot;Mileage Input Test&quot;)
+&nbsp;    public void testValidateMileage(int mileage, boolean expected) {
+&nbsp;        // Arrange
+<b class="fc">&nbsp;        Input input = createInputWithSimulatedUserInput(&quot;&quot;);</b>
+&nbsp;
+&nbsp;        // Act
+<b class="fc">&nbsp;        boolean result = input.validateMileage(mileage);</b>
+&nbsp;
+&nbsp;        // Assert
+<b class="fc">&nbsp;        assertEquals(expected, result, &quot;validateMileage should return &quot; + expected + &quot; for input: &quot; + mileage);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 4
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;getInputPassengers Method Test&quot;)
+&nbsp;    public void testGetInputPassengers() {
+&nbsp;        // Arrange - first invalid input, then valid input
+<b class="fc">&nbsp;        String simulatedInput = &quot;0\nabc\n5\n&quot;;</b>
+<b class="fc">&nbsp;        Input input = createInputWithSimulatedUserInput(simulatedInput);</b>
+&nbsp;
+&nbsp;        // Redirect System.out to capture output
+<b class="fc">&nbsp;        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();</b>
+<b class="fc">&nbsp;        PrintStream originalOut = System.out;</b>
+<b class="fc">&nbsp;        System.setOut(new PrintStream(outputStream));</b>
+&nbsp;
+&nbsp;        try {
+&nbsp;            // Act
+<b class="fc">&nbsp;            int result = input.getInputPassengers();</b>
+&nbsp;
+&nbsp;            // Assert
+<b class="fc">&nbsp;            assertEquals(5, result, &quot;getInputPassengers should return 5 after trying invalid inputs&quot;);</b>
+<b class="fc">&nbsp;            String output = outputStream.toString();</b>
+<b class="fc">&nbsp;            assertTrue(output.contains(&quot;Invalid input&quot;), &quot;Should display error for invalid input&quot;);</b>
+<b class="fc">&nbsp;            assertTrue(output.contains(&quot;Please enter a valid number&quot;), &quot;Should display error for non-numeric input&quot;);</b>
+&nbsp;        } finally {
+&nbsp;            // Restore System.out
+<b class="fc">&nbsp;            System.setOut(originalOut);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 5
+&nbsp;    @ParameterizedTest
+&nbsp;    @CsvSource({
+&nbsp;            &quot;user1, true&quot;,
+&nbsp;            &quot;abcd, true&quot;,
+&nbsp;            &quot;user_name_20chars_ok, true&quot;,
+&nbsp;            &quot;abc, false&quot;,
+&nbsp;            &quot;&#39;&#39;, false&quot;,
+&nbsp;            &quot;&#39;toolongusernameexceeding20chars&#39;, false&quot;
+&nbsp;    })
+&nbsp;    @DisplayName(&quot;Username Validation Test&quot;)
+&nbsp;    public void testValidateUsername(String username, boolean expected) {
+&nbsp;        // Arrange
+<b class="fc">&nbsp;        Input input = createInputWithSimulatedUserInput(&quot;&quot;);</b>
+&nbsp;
+&nbsp;        // Act
+<b class="fc">&nbsp;        boolean result = input.validateUsername(username);</b>
+&nbsp;
+&nbsp;        // Assert
+<b class="fc">&nbsp;        assertEquals(expected, result, &quot;validateUsername should return &quot; + expected + &quot; for input: &quot; + username);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Test Case 6
+&nbsp;    @ParameterizedTest
+&nbsp;    @CsvSource({
+&nbsp;            &quot;Password1!, true&quot;,
+&nbsp;            &quot;12345678!, true&quot;,
+&nbsp;            &quot;Abcdefg1#, true&quot;,
+&nbsp;            &quot;short1!, false&quot;,
+&nbsp;            &quot;nospeci4lchar, false&quot;,
+&nbsp;            &quot;NoNumber!, false&quot;,
+&nbsp;            &quot;No$paces Allowed1, false&quot;
+&nbsp;    })
+&nbsp;    @DisplayName(&quot;Passsword Validation Test&quot;)
+&nbsp;    public void testValidatePassword(String password, boolean expected) {
+&nbsp;        // Arrange
+<b class="fc">&nbsp;        Input input = createInputWithSimulatedUserInput(&quot;&quot;);</b>
+&nbsp;
+&nbsp;        // Act
+<b class="fc">&nbsp;        boolean result = input.validatePassword(password);</b>
+&nbsp;
+&nbsp;        // Assert
+<b class="fc">&nbsp;        assertEquals(expected, result, &quot;validatePassword should return &quot; + expected + &quot; for input: &quot; + password);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-05-14 20:55</div>
+</div>
+</body>
+</html>

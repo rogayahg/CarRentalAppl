@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserTest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">src.test</a>
+</div>
+
+<h1>Coverage Summary for Class: UserTest (src.test)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package src.test;
+&nbsp;import src.User;
+&nbsp;import java.io.*;
+&nbsp;//Junit imports
+&nbsp;import org.junit.jupiter.api.Test;
+&nbsp;import org.junit.jupiter.api.DisplayName;
+&nbsp;import static org.junit.jupiter.api.Assertions.*;
+&nbsp;
+<b class="nc">&nbsp;public class UserTest {</b>
+&nbsp;
+&nbsp;    //Test Case 1
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;Succsessful Registration Test&quot;)
+&nbsp;    public void testRegistration() {
+<b class="nc">&nbsp;        User user = new User(&quot;testUser&quot;, &quot;hashedPassword&quot;, &quot;salt123&quot;, false);</b>
+<b class="nc">&nbsp;        assertEquals(&quot;testUser&quot;, user.getUsername());</b>
+<b class="nc">&nbsp;        assertEquals(&quot;hashedPassword&quot;, user.getPassword());</b>
+<b class="nc">&nbsp;        assertEquals(&quot;salt123&quot;, user.getSalt());</b>
+<b class="nc">&nbsp;        assertFalse(user.isAdmin());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 2
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;Admin Privileges Test&quot;)
+&nbsp;    public void testAdminPrivileges() {
+<b class="nc">&nbsp;        User adminUser = new User(&quot;admin&quot;, &quot;hashedPassword&quot;, &quot;salt123&quot;, true);</b>
+<b class="nc">&nbsp;        User regularUser = new User(&quot;user&quot;, &quot;hashedPassword&quot;, &quot;salt123&quot;, false);</b>
+&nbsp;
+<b class="nc">&nbsp;        assertTrue(adminUser.isAdmin());</b>
+<b class="nc">&nbsp;        assertFalse(regularUser.isAdmin());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 3
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;User with NULL Values Test&quot;)
+&nbsp;    public void testEmptyValues() {
+<b class="nc">&nbsp;        User user = new User(&quot;&quot;, &quot;&quot;, &quot;&quot;, false);</b>
+<b class="nc">&nbsp;        assertEquals(&quot;&quot;, user.getUsername());</b>
+<b class="nc">&nbsp;        assertEquals(&quot;&quot;, user.getPassword());</b>
+<b class="nc">&nbsp;        assertEquals(&quot;&quot;, user.getSalt());</b>
+<b class="nc">&nbsp;        assertFalse(user.isAdmin());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 4
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;User with ZEROS Values Test&quot;)
+&nbsp;    public void testNullValues() {
+<b class="nc">&nbsp;        User user = new User(null, null, null, false);</b>
+<b class="nc">&nbsp;        assertNull(user.getUsername());</b>
+<b class="nc">&nbsp;        assertNull(user.getPassword());</b>
+<b class="nc">&nbsp;        assertNull(user.getSalt());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 5
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;Serialization and Deserialization Test&quot;)
+&nbsp;    public void testSerialization() throws IOException, ClassNotFoundException {
+<b class="nc">&nbsp;        User originalUser = new User(&quot;testUser&quot;, &quot;hashedPassword&quot;, &quot;salt123&quot;, true);</b>
+&nbsp;
+&nbsp;        // Serialize
+<b class="nc">&nbsp;        ByteArrayOutputStream bos = new ByteArrayOutputStream();</b>
+<b class="nc">&nbsp;        ObjectOutputStream out = new ObjectOutputStream(bos);</b>
+<b class="nc">&nbsp;        out.writeObject(originalUser);</b>
+&nbsp;        out.close();
+&nbsp;
+&nbsp;        // Deserialize
+<b class="nc">&nbsp;        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());</b>
+<b class="nc">&nbsp;        ObjectInputStream in = new ObjectInputStream(bis);</b>
+<b class="nc">&nbsp;        User deserializedUser = (User) in.readObject();</b>
+&nbsp;        in.close();
+&nbsp;
+&nbsp;        // Verify
+<b class="nc">&nbsp;        assertEquals(originalUser.getUsername(), deserializedUser.getUsername());</b>
+<b class="nc">&nbsp;        assertEquals(originalUser.getPassword(), deserializedUser.getPassword());</b>
+<b class="nc">&nbsp;        assertEquals(originalUser.getSalt(), deserializedUser.getSalt());</b>
+<b class="nc">&nbsp;        assertEquals(originalUser.isAdmin(), deserializedUser.isAdmin());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 6
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;Special Characters in Username and Password Test&quot;)
+&nbsp;    public void testSpecialCharacters() {
+<b class="nc">&nbsp;        User user = new User(&quot;user@123!#&quot;, &quot;hash$%^&amp;*&quot;, &quot;salt!@#&quot;, true);</b>
+<b class="nc">&nbsp;        assertEquals(&quot;user@123!#&quot;, user.getUsername());</b>
+<b class="nc">&nbsp;        assertEquals(&quot;hash$%^&amp;*&quot;, user.getPassword());</b>
+<b class="nc">&nbsp;        assertEquals(&quot;salt!@#&quot;, user.getSalt());</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-05-14 20:55</div>
+</div>
+</body>
+</html>

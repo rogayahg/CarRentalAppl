@@ -1,0 +1,311 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RentalSystemTest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">src.test</a>
+</div>
+
+<h1>Coverage Summary for Class: RentalSystemTest (src.test)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RentalSystemTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/67)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package src.test;
+&nbsp;import src.Car;
+&nbsp;import src.RentalSystem;
+&nbsp;import src.User;
+&nbsp;//Junit imports
+&nbsp;import org.junit.jupiter.api.BeforeEach;
+&nbsp;import org.junit.jupiter.api.Test;
+&nbsp;import org.junit.jupiter.api.DisplayName;
+&nbsp;import org.junit.jupiter.api.io.TempDir;
+&nbsp;import org.junit.jupiter.api.AfterEach;
+&nbsp;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import static org.junit.jupiter.api.Assertions.*;
+&nbsp;
+<b class="nc">&nbsp;public class RentalSystemTest {</b>
+&nbsp;
+&nbsp;    private RentalSystem rentalSystem;
+&nbsp;
+&nbsp;    @TempDir
+&nbsp;    Path tempDir;
+&nbsp;
+&nbsp;    @BeforeEach
+&nbsp;    public void setUp() {
+&nbsp;        // Set the current directory to the temp directory for file operations
+<b class="nc">&nbsp;        System.setProperty(&quot;user.dir&quot;, tempDir.toString());</b>
+<b class="nc">&nbsp;        rentalSystem = new RentalSystem();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @AfterEach
+&nbsp;    public void tearDown() {
+&nbsp;        // Ensure we clean up any test files
+<b class="nc">&nbsp;        new File(tempDir.toString() + &quot;/users.dat&quot;).delete();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 1
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;Default Admin Registration Test&quot;)
+&nbsp;    public void testDefaultAdminCreation() {
+&nbsp;        // Login with default admin credentials
+<b class="nc">&nbsp;        assertTrue(rentalSystem.login(&quot;admin&quot;, &quot;Admin.123&quot;));</b>
+<b class="nc">&nbsp;        assertTrue(rentalSystem.isAdmin());</b>
+<b class="nc">&nbsp;        assertNotNull(rentalSystem.getCurrentUser());</b>
+<b class="nc">&nbsp;        assertEquals(&quot;admin&quot;, rentalSystem.getCurrentUser().getUsername());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 2
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;User Registration &amp; Login Test&quot;)
+&nbsp;    public void testUserRegistrationAndLogin() {
+&nbsp;        // Register a new user
+<b class="nc">&nbsp;        assertTrue(rentalSystem.register(&quot;testuser1&quot;, &quot;P@ssword123&quot;));</b>
+&nbsp;
+&nbsp;        // Login with new user
+<b class="nc">&nbsp;        assertTrue(rentalSystem.login(&quot;testuser1&quot;, &quot;P@ssword123&quot;));</b>
+<b class="nc">&nbsp;        assertFalse(rentalSystem.isAdmin());</b>
+<b class="nc">&nbsp;        assertEquals(&quot;testuser1&quot;, rentalSystem.getCurrentUser().getUsername());</b>
+&nbsp;
+&nbsp;        // Test duplicate registration
+<b class="nc">&nbsp;        assertFalse(rentalSystem.register(&quot;testuser1&quot;, &quot;AnotherP@ss123&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 3
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;User Logout Test&quot;)
+&nbsp;    public void testLogout() {
+&nbsp;        // Login first
+<b class="nc">&nbsp;        assertTrue(rentalSystem.login(&quot;admin&quot;, &quot;Admin.123&quot;));</b>
+<b class="nc">&nbsp;        assertNotNull(rentalSystem.getCurrentUser());</b>
+&nbsp;
+&nbsp;        // Logout
+<b class="nc">&nbsp;        rentalSystem.logout();</b>
+<b class="nc">&nbsp;        assertNull(rentalSystem.getCurrentUser());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 4
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;Reccomend Best Car Functionality Test&quot;)
+&nbsp;    public void testFindBestCars() {
+&nbsp;        // Login as admin
+<b class="nc">&nbsp;        rentalSystem.login(&quot;admin&quot;, &quot;Admin.123&quot;);</b>
+&nbsp;
+&nbsp;        // Test with 4 passengers, 5 days, 300 miles
+<b class="nc">&nbsp;        List&lt;Car&gt; cars = rentalSystem.findBestCars(4, 5, 300);</b>
+&nbsp;
+&nbsp;        // Should return at least one car
+<b class="nc">&nbsp;        assertFalse(cars.isEmpty());</b>
+&nbsp;
+&nbsp;        // Cars should be sorted by trip cost (lowest first)
+<b class="nc">&nbsp;        for (int i = 0; i &lt; cars.size() - 1; i++) {</b>
+<b class="nc">&nbsp;            double cost1 = cars.get(i).calculateTripCost(5, 300);</b>
+<b class="nc">&nbsp;            double cost2 = cars.get(i + 1).calculateTripCost(5, 300);</b>
+<b class="nc">&nbsp;            assertTrue(cost1 &lt;= cost2);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // All cars should fit the number of passengers
+<b class="nc">&nbsp;        for (Car car : cars) {</b>
+<b class="nc">&nbsp;            assertTrue(car.canFitPassengers(4));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 5
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;Password Verification Test (Multiple Attempts)&quot;)
+&nbsp;    public void testPasswordVerification() {
+&nbsp;        // Register user with known password
+<b class="nc">&nbsp;        rentalSystem.register(&quot;passtest&quot;, &quot;Test@123&quot;);</b>
+&nbsp;
+&nbsp;        // Correct password should work
+<b class="nc">&nbsp;        assertTrue(rentalSystem.login(&quot;passtest&quot;, &quot;Test@123&quot;));</b>
+&nbsp;
+&nbsp;        // Logout for next tests
+<b class="nc">&nbsp;        rentalSystem.logout();</b>
+&nbsp;
+&nbsp;        // Incorrect password should fail
+<b class="nc">&nbsp;        assertFalse(rentalSystem.login(&quot;passtest&quot;, &quot;WrongPassword&quot;));</b>
+<b class="nc">&nbsp;        assertFalse(rentalSystem.login(&quot;passtest&quot;, &quot;Test@1234&quot;));</b>
+<b class="nc">&nbsp;        assertFalse(rentalSystem.login(&quot;passtest&quot;, &quot;test@123&quot;)); // Case sensitive</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 6
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;Admin Access to Users List Test&quot;)
+&nbsp;    public void testAdminAccessControl() {
+&nbsp;        // Register regular users
+<b class="nc">&nbsp;        rentalSystem.register(&quot;user1&quot;, &quot;User@123&quot;);</b>
+<b class="nc">&nbsp;        rentalSystem.register(&quot;user2&quot;, &quot;User@456&quot;);</b>
+&nbsp;
+&nbsp;        // Login as regular user
+<b class="nc">&nbsp;        rentalSystem.login(&quot;user1&quot;, &quot;User@123&quot;);</b>
+&nbsp;
+&nbsp;        // Regular user should get empty list when trying to access user list
+<b class="nc">&nbsp;        assertTrue(rentalSystem.getUserList().isEmpty());</b>
+&nbsp;
+&nbsp;        // Logout and login as admin
+<b class="nc">&nbsp;        rentalSystem.logout();</b>
+<b class="nc">&nbsp;        rentalSystem.login(&quot;admin&quot;, &quot;Admin.123&quot;);</b>
+&nbsp;
+&nbsp;        // Admin should see all users
+<b class="nc">&nbsp;        List&lt;User&gt; users = rentalSystem.getUserList();</b>
+<b class="nc">&nbsp;        assertFalse(users.isEmpty());</b>
+&nbsp;
+&nbsp;        // Should contain at least admin, user1, and user2
+<b class="nc">&nbsp;        boolean foundAdmin = false;</b>
+<b class="nc">&nbsp;        boolean foundUser1 = false;</b>
+<b class="nc">&nbsp;        boolean foundUser2 = false;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (User user : users) {</b>
+<b class="nc">&nbsp;            if (&quot;admin&quot;.equals(user.getUsername())) foundAdmin = true;</b>
+<b class="nc">&nbsp;            if (&quot;user1&quot;.equals(user.getUsername())) foundUser1 = true;</b>
+<b class="nc">&nbsp;            if (&quot;user2&quot;.equals(user.getUsername())) foundUser2 = true;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        assertTrue(foundAdmin);</b>
+<b class="nc">&nbsp;        assertTrue(foundUser1);</b>
+<b class="nc">&nbsp;        assertTrue(foundUser2);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Test Case 7
+&nbsp;    @Test
+&nbsp;    @DisplayName(&quot;PAssword HAshing And Salt Test&quot;)
+&nbsp;    public void testPasswordHashingAndSalt() {
+&nbsp;        // Register two users with the same password
+<b class="nc">&nbsp;        rentalSystem.register(&quot;hashtest1&quot;, &quot;Same@123&quot;);</b>
+<b class="nc">&nbsp;        rentalSystem.register(&quot;hashtest2&quot;, &quot;Same@123&quot;);</b>
+&nbsp;
+&nbsp;        // Login to get the users
+<b class="nc">&nbsp;        rentalSystem.login(&quot;admin&quot;, &quot;Admin.123&quot;);</b>
+<b class="nc">&nbsp;        List&lt;User&gt; users = rentalSystem.getUserList();</b>
+&nbsp;
+<b class="nc">&nbsp;        User user1 = null;</b>
+<b class="nc">&nbsp;        User user2 = null;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (User user : users) {</b>
+<b class="nc">&nbsp;            if (&quot;hashtest1&quot;.equals(user.getUsername())) user1 = user;</b>
+<b class="nc">&nbsp;            if (&quot;hashtest2&quot;.equals(user.getUsername())) user2 = user;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        assertNotNull(user1);</b>
+<b class="nc">&nbsp;        assertNotNull(user2);</b>
+&nbsp;
+&nbsp;        // Same password should generate different hashes due to different salts
+<b class="nc">&nbsp;        assertNotEquals(user1.getPassword(), user2.getPassword());</b>
+<b class="nc">&nbsp;        assertNotEquals(user1.getSalt(), user2.getSalt());</b>
+&nbsp;
+&nbsp;        // But login should work for both
+<b class="nc">&nbsp;        rentalSystem.logout();</b>
+<b class="nc">&nbsp;        assertTrue(rentalSystem.login(&quot;hashtest1&quot;, &quot;Same@123&quot;));</b>
+<b class="nc">&nbsp;        rentalSystem.logout();</b>
+<b class="nc">&nbsp;        assertTrue(rentalSystem.login(&quot;hashtest2&quot;, &quot;Same@123&quot;));</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-05-14 20:55</div>
+</div>
+</body>
+</html>
